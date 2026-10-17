@@ -1,6 +1,3 @@
-using System;
-using System.Data;
-using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,8 +13,6 @@ public class WinLoseDialog
 
     Label winLose_Label;
     Label oK_Label;
-
-    Menu menu;
 
 
     public WinLoseDialog(GameObject parent, bool winOrLose)
@@ -36,22 +31,24 @@ public class WinLoseDialog
         panelRenderer.sortingOrder = 100;
 
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
-
-        //ScreenSafeArea.RemoveUnSafeAreaFromUI(root);
     }
 
     private void OnUIReloadCallback(PanelRenderer panelRenderer, VisualElement root, int version)
     {
+        ScreenSafeArea.RemoveUnSafeAreaFromUI(root);
+
         winLose_Label = root.Q<Label>("WinLose_Label");
         oK_Label = root.Q<Label>("OK_Label");
 
         if (winOrLose)
         {
             winLose_Label.text = "Win";
+            winLose_Label.style.color = Color.green;
         }
         else
         {
             winLose_Label.text = "Lose";
+            winLose_Label.style.color = Color.red;
         }
 
         oK_Label.text = "OK";
@@ -74,7 +71,6 @@ public class WinLoseDialog
             winLoseWindow_Template = null;
             panelRenderer = null;
             winLose_Label = null;
-            menu = null;
         }
     }
 }

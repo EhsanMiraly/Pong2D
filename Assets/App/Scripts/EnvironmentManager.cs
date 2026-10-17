@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Unity.InferenceEngine;
 using Unity.MLAgents;
 using UnityEngine;
@@ -70,39 +71,27 @@ public class EnvironmentManager : MonoBehaviour
     }
 
 
-    private async void OnStartGame()
+    private void OnStartGame()
     {
+        Time.timeScale = 1f;
+
         GameData.AIScore = 0;
         GameData.YouScore = 0;
 
         leftPaddle.GetComponent<LeftPaddle>().ResetAgent();
         rightPaddle.GetComponent<RightPaddle>().ResetPaddle();
 
-        await Awaitable.WaitForSecondsAsync(3f);//Or Start Timer Dialog
-
-        GameData.IsPlaying = true;
-
-        ball.GetComponent<Ball>().StartMoving();
+        new TimerDialog(new GameObject(), ball.GetComponent<Ball>());
     }
 
-    private void OnResetGameEnvironment()
+    private void ResetGameEnvironment()
     {
         leftPaddle.GetComponent<LeftPaddle>().ResetAgent();
         rightPaddle.GetComponent<RightPaddle>().ResetPaddle();
         ball.GetComponent<Ball>().StopMoving();
 
-        //await 3 second
-
-        ball.GetComponent<Ball>().StartMoving();
-    }
-
-    private void OnFinishGame()
-    {
-        ///Dialog and other stuff
-
         GameData.IsPlaying = false;
-
-        ball.GetComponent<Ball>().StopMoving();
+        new TimerDialog(new GameObject(), ball.GetComponent<Ball>());
     }
 
 
@@ -110,7 +99,14 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (GameData.AIScore >= GameData.scoreNeedToWin)
         {
+            GameData.IsPlaying = false;
+            ball.GetComponent<Ball>().StopMoving();
+
             WinLoseDialog winLoseDialog = new WinLoseDialog(new GameObject(), false);
+        }
+        else
+        {
+            ResetGameEnvironment();
         }
     }
 
@@ -118,7 +114,14 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (GameData.YouScore >= GameData.scoreNeedToWin)
         {
+            GameData.IsPlaying = false;
+            ball.GetComponent<Ball>().StopMoving();
+
             WinLoseDialog winLoseDialog = new WinLoseDialog(new GameObject(), true);
+        }
+        else
+        {
+            ResetGameEnvironment();
         }
     }
 

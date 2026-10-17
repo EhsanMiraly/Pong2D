@@ -1,7 +1,4 @@
-using Unity.Mathematics;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class RightPaddle : MonoBehaviour
 {

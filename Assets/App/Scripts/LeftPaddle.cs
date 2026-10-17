@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 public class LeftPaddle : Agent
 {
     [SerializeField] private LayerMask layerMask;
-    [SerializeField] private GameObject lost;/////////Delete - Change to dialog
-    [SerializeField] private GameObject win;/////////Delete - Change to dialog
     [SerializeField] private GameObject ballGameObject;
     private Rigidbody2D ballGameObject_rb2D;
 
@@ -48,13 +46,6 @@ public class LeftPaddle : Agent
 
         rb2D.linearVelocity = Vector2.zero;
         transform.localPosition = new Vector3(initialX, 0f, 0f);
-    }
-
-    public override void OnEpisodeBegin()
-    {
-        // Intentionally empty.
-        //
-        // Reset is controlled by MultiAgentEpisodeManager.
     }
 
 
@@ -143,23 +134,6 @@ public class LeftPaddle : Agent
     }
 
 
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
-
-        discreteActions[0] = 0;
-
-        if (Keyboard.current.upArrowKey.isPressed)
-        {
-            discreteActions[0] = 1;
-        }
-        else if (Keyboard.current.downArrowKey.isPressed)
-        {
-            discreteActions[0] = 2;
-        }
-    }
-
-
     public override void OnActionReceived(ActionBuffers actions)
     {
         if (!GameData.IsPlaying)
@@ -187,7 +161,13 @@ public class LeftPaddle : Agent
 
     private void FixedUpdate()
     {
-        RequestAgentDecision();
+        if (!initialized)
+            return;
+
+        if (!GameData.IsPlaying)
+            return;
+
+        RequestDecision();
     }
 
 
@@ -200,38 +180,6 @@ public class LeftPaddle : Agent
             Mathf.Clamp(transform.localPosition.y, -GameData.MaxPaddleYPosition, GameData.MaxPaddleYPosition), 0f);
     }
 
-
-    public void FinishAgent(float reward, bool winGame)
-    {
-        if (!GameData.IsPlaying)
-            return;
-
-        if (winGame)
-        {
-            //win.SetActive(true);
-        }
-        else
-        {
-            //lost.SetActive(true);
-        }
-
-        rb2D.linearVelocity = Vector2.zero;
-        transform.localPosition = new Vector3(initialX, 0f, 0f);
-
-        //Reset Ball?????????????????????????????
-    }
-
-
-    public void RequestAgentDecision()
-    {
-        if (!initialized)
-            return;
-
-        if (!GameData.IsPlaying)
-            return;
-
-        RequestDecision();
-    }
 
     public void EndAgentEpisode()
     {

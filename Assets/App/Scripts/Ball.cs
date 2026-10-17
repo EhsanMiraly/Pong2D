@@ -146,6 +146,9 @@ public class Ball : MonoBehaviour
 
     private void PlayBallHitObject()
     {
+        if (!SettingsData.isSoundEffectsOn)
+            return;
+
         audioSource.clip = ballHitAudioClip;
         audioSource.volume = 0.5f;
         audioSource.Play();
@@ -153,6 +156,9 @@ public class Ball : MonoBehaviour
 
     private void PlayBallHitEndWall()
     {
+        if (!SettingsData.isSoundEffectsOn)
+            return;
+
         audioSource.clip = ballHitWallAudioClip;
         audioSource.volume = 0.1f;
         audioSource.Play();

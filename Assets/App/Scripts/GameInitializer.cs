@@ -9,6 +9,8 @@ public class GameInitializer : MonoBehaviour
 
         Time.fixedDeltaTime = 0.01f;
         Time.maximumDeltaTime = 0.05f;
+
+        ScreenSafeArea.RemoveUnSafeAreaFromGame();
     }
 
 }
