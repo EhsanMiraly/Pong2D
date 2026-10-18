@@ -4,7 +4,7 @@ public class GameData : MonoBehaviour
 {
     public static bool IsPlaying = false;
 
-    public const int scoreNeedToWin = 2;//change to 10
+    public const int scoreNeedToWin = 5;//change to 10
 
     private static int aiScore = 0;
     public static int AIScore

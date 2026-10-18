@@ -10,6 +10,8 @@ public class ScreenUI : MonoBehaviour
     private int panelRendererVersion = -1;
     //private bool isUIReady = false;
 
+    private AudioSource audioSource;
+
 
     VisualElement mainPage_VisualElement;
     Label newGame_Label;
@@ -37,6 +39,8 @@ public class ScreenUI : MonoBehaviour
     {
         panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReloadCallback);
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnDisable()
@@ -106,6 +110,8 @@ public class ScreenUI : MonoBehaviour
                 DisplayStyle.Flex;
             backgroundMusicCheckMark_VisualElement.Q<VisualElement>("Off_VisualElement").style.display =
                 DisplayStyle.None;
+
+            audioSource.Play();
         }
         else
         {
@@ -113,6 +119,8 @@ public class ScreenUI : MonoBehaviour
                 DisplayStyle.None;
             backgroundMusicCheckMark_VisualElement.Q<VisualElement>("Off_VisualElement").style.display =
                 DisplayStyle.Flex;
+
+            audioSource.Stop();
         }
 
     }
@@ -243,6 +251,8 @@ public class ScreenUI : MonoBehaviour
                 DisplayStyle.Flex;
             backgroundMusicCheckMark_VisualElement.Q<VisualElement>("Off_VisualElement").style.display =
                 DisplayStyle.None;
+
+            audioSource.Play();
         }
         else
         {
@@ -250,6 +260,8 @@ public class ScreenUI : MonoBehaviour
                 DisplayStyle.None;
             backgroundMusicCheckMark_VisualElement.Q<VisualElement>("Off_VisualElement").style.display =
                 DisplayStyle.Flex;
+
+            audioSource.Stop();
         }
 
         Settings_SaveSystem.Save_Settings();

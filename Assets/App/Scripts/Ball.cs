@@ -4,7 +4,8 @@ public class Ball : MonoBehaviour
 {
     //[SerializeField] private PaddleAgent paddleAgent;
     [SerializeField] private AudioClip ballHitAudioClip;
-    [SerializeField] private AudioClip ballHitWallAudioClip;
+    [SerializeField] private AudioClip ballHitLeftWallAudioClip;
+    [SerializeField] private AudioClip ballHitRightWallAudioClip;
 
     private AudioSource audioSource;
 
@@ -65,15 +66,15 @@ public class Ball : MonoBehaviour
 
         else if (collision.gameObject.tag == "LeftWall")
         {
-            PlayBallHitEndWall();
-
             GameData.YouScore++;
+
+            PlayBallHitLeftWall();
         }
         else if (collision.gameObject.tag == "RightWall")
         {
-            PlayBallHitEndWall();
-
             GameData.AIScore++;
+
+            PlayBallHitRightWall();
         }
         else
         {
@@ -154,13 +155,27 @@ public class Ball : MonoBehaviour
         audioSource.Play();
     }
 
-    private void PlayBallHitEndWall()
+    private void PlayBallHitLeftWall()
     {
         if (!SettingsData.isSoundEffectsOn)
             return;
+        if (GameData.AIScore >= GameData.scoreNeedToWin || GameData.YouScore >= GameData.scoreNeedToWin)
+            return;
 
-        audioSource.clip = ballHitWallAudioClip;
-        audioSource.volume = 0.1f;
+        audioSource.clip = ballHitLeftWallAudioClip;
+        audioSource.volume = 0.3f;
+        audioSource.Play();
+    }
+
+    private void PlayBallHitRightWall()
+    {
+        if (!SettingsData.isSoundEffectsOn)
+            return;
+        if (GameData.AIScore >= GameData.scoreNeedToWin || GameData.YouScore >= GameData.scoreNeedToWin)
+            return;
+
+        audioSource.clip = ballHitRightWallAudioClip;
+        audioSource.volume = 0.5f;
         audioSource.Play();
     }
 
